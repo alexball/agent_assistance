@@ -1,0 +1,45 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title></title>
+        <link rel="stylesheet" type="text/css" href="{% static 'assist_app/css/bootstrap.min.css' %}">
+    </head>
+    <body>
+
+        <div class="container">
+            <table class="table table-bordered table-hover">
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Agent</th>
+                        <th scope="col">Queue</th>
+                        <th scope="col">Skill</th>
+                        <th scope="col">Request Time</th>
+                        <th scope="col">Assist Conversation</th>
+                    </tr>
+                </thead>
+                <tbody class="">
+                    {% if list_of_calls_needing_assistance %}
+                    {% for call in list_of_calls_needing_assistance %}
+                        {% if call.is_completed == False %}
+                            <tr>
+                                <th scope="row">{{ call.id }}</th>
+                                <td>{{ call.agent }}</td>
+                                <td>{{ call.queue }}</td>
+                                <td>{{ call.skill }}</td>
+                                <td>{{ call.request_time }}</td>
+                                <td><a href="{% url 'claim_call' call.id %}">Claim and Monitor Call</a></td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                    {% else %}
+                        <p>No calls currently need assistance.</p>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </body>
+</html>

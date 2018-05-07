@@ -1,0 +1,77 @@
+{% extends 'assist_app/base.html' %}
+
+{% block content %}
+<!-- Main Container -->
+<main id="main-container">
+    <!-- Page Header -->
+    <div class="content bg-gray-lighter">
+        <div class="row items-push">
+            <div class="col-sm-7">
+                <h1 class="page-heading">
+                    Calls To Be Assisted On <small>A list of all of the calls that need assistance.</small>
+                </h1>
+            </div>
+            <div class="col-sm-5 text-right hidden-xs">
+                <ol class="breadcrumb push-10-t">
+                    <li>Tables</li>
+                    <li><a class="link-effect" href="">DataTables</a></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- END Page Header -->
+
+    <!-- Page Content -->
+    <div class="content">
+        <!-- Dynamic Table Full -->
+        <div class="block">
+            <div class="block-header">
+                <h3 class="block-title">Current Calls </h3>
+            </div>
+            <div class="block-content">
+                <!-- DataTables init on table by adding .js-dataTable-full class, functionality initialized in js/pages/base_tables_datatables.js -->
+                <table class="table table-bordered table-striped js-dataTable-full">
+                    <thead>
+                        <tr>
+                            <th class="text-center"></th>
+                            <th>Agent Name</th>
+                            <th>Request Date/Time</th>
+                            <th class="hidden-xs">Queue Name</th>
+                            <th class="hidden-xs" style="width: 15%;">Skill</th>
+                            <th class="text-center" style="width: 10%;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% if list_of_calls_needing_assistance %}
+                    {% for call in list_of_calls_needing_assistance %}
+                        {% if call.is_completed == False %}
+                        <tr>
+                            <td class="text-center">{{ call.id }}</td>
+                            <td class="font-w600">{{ call.agent }}</td>
+                            <td class="">{{ call.request_time }}</td>
+                            <td class="hidden-xs">{{ call.queue }}</td>
+                            <td class="hidden-xs">
+                                <span class="label label-info">{{ call.skill }}</span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group">
+                                    <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Edit Client"><i class="fa fa-pencil"></i></button>
+                                    <button class="btn btn-xs btn-default" type="button" data-toggle="tooltip" title="Remove Client"><i class="fa fa-times"></i></button>
+                                </div>
+                            </td>
+                        </tr>
+                        {% endif %}
+                        {% endfor %}
+                        {% else %}
+                            <p>No calls currently need assistance.</p>
+                        {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- END Dynamic Table Full -->
+    </div>
+    <!-- END Page Content -->
+</main>
+<!-- END Main Container -->
+{% endblock %}
